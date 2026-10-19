@@ -1,6 +1,8 @@
 // "Back to top": a small glass circle pinned to the bottom-right corner. It
 // appears once "Current Yachts for Sale" reaches the upper third of the screen
 // and hides again above it. Icon only; the name is in aria-label.
+// The scroll accelerates into the top (a pull, not a glide) and lands with the
+// page's rubber-band bounce (onArrive → overscroll-pull kick).
 
 const ARROW = '<svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 16V4M5 9l5-5 5 5"/></svg>';
 
@@ -9,8 +11,9 @@ const ARROW = '<svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true
  * @param {HTMLElement} o.trigger  shown once this element's top is in the upper part of the viewport
  * @param {HTMLElement} [o.focusTarget]  receives focus after scrolling up (the button itself disappears)
  * @param {MediaQueryList} o.reducedMotion
+ * @param {() => void} [o.onArrive]  called when the scroll reaches the top (the bounce)
  */
-export function createBackToTop({ trigger, focusTarget, reducedMotion }) {
+export function createBackToTop({ trigger, focusTarget, reducedMotion, onArrive }) {
   const btn = document.createElement("button");
   btn.type = "button";
   btn.className = "to-top";
@@ -34,8 +37,38 @@ export function createBackToTop({ trigger, focusTarget, reducedMotion }) {
   window.addEventListener("resize", () => (raf ||= requestAnimationFrame(sync)));
   sync();
 
+  // Accelerating scroll (ease-in): slow start, fastest at the very top. Any
+  // wheel / touch / key from the user cancels it and leaves the page where it is.
+  let anim = 0;
+  const cancel = () => {
+    cancelAnimationFrame(anim);
+    anim = 0;
+  };
+  for (const type of ["wheel", "touchstart", "keydown"]) window.addEventListener(type, () => anim && cancel(), { passive: true });
+  function pullToTop() {
+    cancel();
+    const from = window.scrollY;
+    if (reducedMotion.matches || from <= 0) {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      return;
+    }
+    const duration = Math.min(950, Math.max(500, from / 8));
+    const start = performance.now();
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = t * t * t; // cubic ease-in: the pull builds up to the top
+      window.scrollTo({ top: Math.round(from * (1 - eased)), behavior: "instant" });
+      if (t < 1) anim = requestAnimationFrame(step);
+      else {
+        anim = 0;
+        onArrive?.();
+      }
+    };
+    anim = requestAnimationFrame(step);
+  }
+
   btn.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: reducedMotion.matches ? "auto" : "smooth" });
+    pullToTop();
     if (focusTarget) {
       if (!focusTarget.hasAttribute("tabindex")) focusTarget.tabIndex = -1;
       focusTarget.focus({ preventScroll: true });

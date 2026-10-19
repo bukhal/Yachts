@@ -78,6 +78,11 @@ export function createOverscrollPull({ hero, config, reducedMotion, onPull }) {
     hero.dispatchEvent(new CustomEvent("hero:pull-release", { bubbles: true, detail: { armed, distance: pull } }));
     raw = 0;
     velocity = 0;
+    spring();
+  }
+
+  // Critically damped spring towards 0 from the current pull and velocity.
+  function spring() {
     springing = true;
     let last = performance.now();
     const step = (now) => {
@@ -161,6 +166,34 @@ export function createOverscrollPull({ hero, config, reducedMotion, onPull }) {
   return {
     get value() {
       return pull;
+    },
+    /**
+     * Arriving at the top with momentum (e.g. "back to top"): the same rubber
+     * band, stretched to about `peak` px and springing back, no gesture needed.
+     */
+    kick(peak = config().maxDistance * 0.6) {
+      if (!active()) return;
+      interruptSpring();
+      raw = 0;
+      // Closed form of the same critically damped spring started at 0 with
+      // velocity v0: x(t) = v0·t·e^(−ωt), peaking at v0/(ω·e) when t = 1/ω.
+      // (A per-frame step is unstable at this initial velocity.)
+      const w = Math.sqrt(config().stiffness);
+      const v0 = Math.min(peak, config().maxDistance) * w * Math.E;
+      const t0 = performance.now();
+      springing = true; // a new gesture interrupts it like a spring-back
+      const step = (now) => {
+        const t = (now - t0) / 1000;
+        const x = v0 * t * Math.exp(-w * t);
+        if (t > 1 / w && x < 0.3) {
+          springing = false;
+          raf = 0;
+          return set(0);
+        }
+        set(x);
+        raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
     },
     dispose() {
       cancelAnimationFrame(raf);

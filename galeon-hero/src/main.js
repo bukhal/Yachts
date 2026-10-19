@@ -198,7 +198,7 @@ async function init() {
     strength: () => store.get().placement.parallax,
     reducedMotion,
   });
-  createOverscrollPull({
+  const overscroll = createOverscrollPull({
     hero: $("[data-hero]"),
     config: () => store.get().pull,
     reducedMotion,
@@ -218,7 +218,7 @@ async function init() {
   }
 
   optional("alerts", () => createAlertsCta($("[data-alerts]"), { model, track, reducedMotion }));
-  optional("back to top", () => createBackToTop({ trigger: $("[data-listings]"), focusTarget: $("[data-title]"), reducedMotion }));
+  optional("back to top", () => createBackToTop({ trigger: $("[data-listings]"), focusTarget: $("[data-title]"), reducedMotion, onArrive: () => overscroll.kick() }));
   const reveal = optional("scroll reveal", () => createScrollReveal({ reducedMotion }));
   reveal?.scan($(".site-footer"));
 
