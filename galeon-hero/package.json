@@ -1,0 +1,12 @@
+{
+  "name": "yachtway-model-hero",
+  "private": true,
+  "version": "0.1.0",
+  "description": "YachtWay model page hero — Galeon 500 Fly (iteration 1 demo)",
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node --test tests/*.test.js"
+  },
+  "engines": { "node": ">=20" }
+}

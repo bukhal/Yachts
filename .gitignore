@@ -1,0 +1,7 @@
+# Local tooling and the saved H87 reference page (not part of the demo)
+.claude/
+skills-lock.json
+/index.html
+
+.DS_Store
+node_modules/
