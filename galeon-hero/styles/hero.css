@@ -98,8 +98,11 @@ html[data-units="imperial"] .u-dual > [data-sys="metric"] { visibility: hidden; 
    Above content, below the header (30) and the sticky section bar (25). */
 .top-fog {
   position: fixed; z-index: 24; top: 0; left: 0; right: 0;
-  height: calc(var(--header-offset) + 22px);
-  background: linear-gradient(180deg, rgba(239, 242, 246, 0.4), rgba(239, 242, 246, 0));
+  height: calc(var(--header-offset) + 30px);
+  /* a shade darker than the page and fairly dense at the very top, eased out */
+  background: linear-gradient(180deg,
+    rgba(222, 228, 237, 0.92) 0%, rgba(226, 231, 239, 0.78) 30%, rgba(231, 235, 242, 0.5) 60%,
+    rgba(236, 239, 245, 0.2) 82%, rgba(239, 242, 246, 0) 100%);
   pointer-events: none;
   transition: opacity 300ms ease;
 }

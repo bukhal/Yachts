@@ -1206,3 +1206,13 @@ main::after {
 body:has(.fx-toggle) .to-top { bottom: 76px; } /* dev mode: above the Tune button */
 @media (max-width: 640px) { .to-top { right: 16px; bottom: 16px; } }
 @media (prefers-reduced-motion: reduce) { .to-top, .to-top.is-shown { translate: none; } }
+
+/* ---------- scroll reveal (scroll-reveal.js) ----------
+   Same language as the hero intro: opacity over 900ms, a short rise settling
+   over 1200ms on --intro-ease; JS staggers blocks entering together. */
+.reveal { opacity: 0; translate: 0 22px; }
+.reveal.is-revealed {
+  opacity: 1; translate: 0 0;
+  transition: opacity 900ms var(--intro-ease) var(--reveal-delay, 0ms), translate 1200ms var(--intro-ease) var(--reveal-delay, 0ms);
+}
+@media (prefers-reduced-motion: reduce) { .reveal, .reveal.is-revealed { opacity: 1; translate: none; transition: none; } }
