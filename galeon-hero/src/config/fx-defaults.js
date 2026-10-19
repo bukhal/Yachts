@@ -134,7 +134,7 @@ export const FX_SCHEMA = {
     // Ripple shape, softness, angle and loop come from "Hull caustics".
     params: {
       enabled: toggle("Glints", true),
-      intensity: range("Intensity", 0.14, 0, 1, 0.01),
+      intensity: range("Intensity", 0.09, 0, 1, 0.01),
       color: color("Light color", "#b9c8ff"),
       scale: range("Ripple size", 2.4, 0.5, 6, 0.05, "× hull"),
       speed: range("Speed", 0.6, 0, 2, 0.05, "×"),

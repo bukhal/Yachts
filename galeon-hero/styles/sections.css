@@ -136,7 +136,7 @@
 /* rhythm: more air before Specifications (×1.5) and before Reviews (+24) */
 #specifications { padding-top: 132px; }
 #reviews { padding-top: 112px; }
-.msec--last { padding-bottom: 48px; } /* the footer fade adds the rest */
+.msec--last { padding-bottom: 32px; } /* the footer fade adds the rest */
 .msec__head { display: flex; align-items: center; justify-content: space-between; gap: 14px 24px; flex-wrap: wrap; margin-bottom: 20px; }
 .msec__title-box { min-width: 0; max-width: 860px; }
 .listings__title, .msec__title { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; color: var(--navy); }
@@ -1126,21 +1126,21 @@ dialog.filters::backdrop { background: transparent; }
    Page background fades into the action-button blue (--brand), then deep
    navy at the bottom; water glints (WebGL, footer-glints-layer.js) move in
    the dark part. Content = yachtway.com footer + this model's anchors. */
-/* The fade is long (460px) and eased (smoothstep, mixed in OKLab). Its first
-   160px live under the FAQ: a zero-height in-flow pseudo at the end of <main>
+/* The fade (~300px) is eased (smoothstep, mixed in OKLab). Its first
+   107px live under the FAQ: a zero-height in-flow pseudo at the end of <main>
    (z-index -1 paints it beneath the FAQ content; no pointer events). The
    footer continues the same curve from that colour. */
 main::after {
   content: ""; display: block; position: relative; z-index: -1; pointer-events: none;
-  height: 160px; margin-top: -160px;
-  background: linear-gradient(180deg, rgba(239, 242, 246, 0) 0px, #e8ecf3 46px, #d4dceb 92px, #b7c4de 138px, #a8b7d7 160px);
+  height: 107px; margin-top: -107px;
+  background: linear-gradient(180deg, rgba(239, 242, 246, 0) 0px, #e8ecf3 31px, #d4dceb 61px, #b7c4de 92px, #a8b7d7 107px);
 }
 .site-footer {
   position: relative; isolation: isolate; overflow: hidden;
-  padding-top: 210px; color: rgba(255, 255, 255, 0.78);
+  padding-top: 140px; color: rgba(255, 255, 255, 0.78);
   background: linear-gradient(180deg,
-    #a8b7d7 0px, #96a8cf 24px, #738abe 70px, #516cac 116px, #34509b 162px, #1d398d 208px, #0f2783 254px,
-    var(--brand) 300px, #0a1a6c 70%, #060f45 100%);
+    #a8b7d7 0px, #96a8cf 16px, #738abe 46px, #516cac 77px, #34509b 108px, #1d398d 139px, #0f2783 169px,
+    var(--brand) 200px, #0a1a6c 70%, #060f45 100%);
 }
 .site-footer__glints { position: absolute; z-index: 0; pointer-events: none; opacity: 0; mix-blend-mode: screen; transition: opacity 900ms ease; }
 .site-footer__glints.is-on { opacity: 1; }
@@ -1174,12 +1174,12 @@ main::after {
   .site-footer__col:first-child { grid-row: span 2; }
 }
 @media (max-width: 640px) {
-  main::after { height: 110px; margin-top: -110px; background: linear-gradient(180deg, rgba(239, 242, 246, 0) 0px, #e8ecf3 34px, #d4dceb 68px, #b7c4de 102px, #b0bedb 110px); }
+  main::after { height: 73px; margin-top: -73px; background: linear-gradient(180deg, rgba(239, 242, 246, 0) 0px, #e8ecf3 23px, #d4dceb 45px, #b7c4de 68px, #b0bedb 73px); }
   .site-footer {
-    padding-top: 160px;
+    padding-top: 107px;
     background: linear-gradient(180deg,
-      #b0bedb 0px, #96a8cf 26px, #738abe 60px, #516cac 94px, #34509b 128px, #1d398d 162px, #0f2783 196px,
-      var(--brand) 230px, #0a1a6c 70%, #060f45 100%);
+      #b0bedb 0px, #96a8cf 17px, #738abe 40px, #516cac 63px, #34509b 85px, #1d398d 108px, #0f2783 130px,
+      var(--brand) 153px, #0a1a6c 70%, #060f45 100%);
   }
   .site-footer__cols { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
   .site-footer__col:first-child { grid-column: 1 / -1; grid-row: auto; padding-right: 0; border-right: 0; }
