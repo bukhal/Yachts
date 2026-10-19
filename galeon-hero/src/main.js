@@ -17,6 +17,7 @@ import { renderModelSections, faqItems } from "./components/model-sections.js";
 import { buildStructuredData, injectStructuredData } from "./lib/structured-data.js";
 import { createAlertsCta } from "./components/alerts-cta.js";
 import { createBackToTop } from "./components/back-to-top.js";
+import { createYachtRock } from "./components/yacht-rock.js";
 import { createScrollReveal } from "./components/scroll-reveal.js";
 import { createFxControls } from "./components/fx-controls.js";
 import { createCutawayView } from "./components/cutaway-view.js";
@@ -198,6 +199,11 @@ async function init() {
     strength: () => store.get().placement.parallax,
     reducedMotion,
   });
+  // The yacht rocks a little when the page springs back from an elastic pull.
+  const yachtRock = createYachtRock({ stage: $("[data-stage]"), reducedMotion });
+  $("[data-hero]").addEventListener("hero:pull-release", (e) =>
+    yachtRock.rock((e.detail?.distance ?? 0) / Math.max(1, store.get().pull.maxDistance) + 0.2),
+  );
   const overscroll = createOverscrollPull({
     hero: $("[data-hero]"),
     config: () => store.get().pull,
@@ -218,7 +224,17 @@ async function init() {
   }
 
   optional("alerts", () => createAlertsCta($("[data-alerts]"), { model, track, reducedMotion }));
-  optional("back to top", () => createBackToTop({ trigger: $("[data-listings]"), focusTarget: $("[data-title]"), reducedMotion, onArrive: () => overscroll.kick() }));
+  optional("back to top", () =>
+    createBackToTop({
+      trigger: $("[data-listings]"),
+      focusTarget: $("[data-title]"),
+      reducedMotion,
+      onArrive: () => {
+        overscroll.kick(undefined, { omega: 9 }); // softer than the gesture spring: ~0.7 s
+        yachtRock.rock(0.85);
+      },
+    }),
+  );
   const reveal = optional("scroll reveal", () => createScrollReveal({ reducedMotion }));
   reveal?.scan($(".site-footer"));
 

@@ -171,14 +171,15 @@ export function createOverscrollPull({ hero, config, reducedMotion, onPull }) {
      * Arriving at the top with momentum (e.g. "back to top"): the same rubber
      * band, stretched to about `peak` px and springing back, no gesture needed.
      */
-    kick(peak = config().maxDistance * 0.6) {
+    kick(peak = config().maxDistance * 0.6, { omega } = {}) {
       if (!active()) return;
       interruptSpring();
       raw = 0;
-      // Closed form of the same critically damped spring started at 0 with
-      // velocity v0: x(t) = v0·t·e^(−ωt), peaking at v0/(ω·e) when t = 1/ω.
+      // Closed form of a critically damped spring started at 0 with velocity
+      // v0: x(t) = v0·t·e^(−ωt), peaking at v0/(ω·e) when t = 1/ω. `omega`
+      // softens it (default: the gesture spring, √stiffness).
       // (A per-frame step is unstable at this initial velocity.)
-      const w = Math.sqrt(config().stiffness);
+      const w = omega ?? Math.sqrt(config().stiffness);
       const v0 = Math.min(peak, config().maxDistance) * w * Math.E;
       const t0 = performance.now();
       springing = true; // a new gesture interrupts it like a spring-back

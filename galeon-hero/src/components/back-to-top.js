@@ -1,8 +1,8 @@
 // "Back to top": a small glass circle pinned to the bottom-right corner. It
 // appears once "Current Yachts for Sale" reaches the upper third of the screen
 // and hides again above it. Icon only; the name is in aria-label.
-// The scroll accelerates into the top (a pull, not a glide) and lands with the
-// page's rubber-band bounce (onArrive → overscroll-pull kick).
+// The scroll eases into the top (gathering speed, not braking) and lands with
+// the page's rubber-band bounce and the yacht's rock (onArrive).
 
 const ARROW = '<svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 16V4M5 9l5-5 5 5"/></svg>';
 
@@ -52,11 +52,11 @@ export function createBackToTop({ trigger, focusTarget, reducedMotion, onArrive 
       window.scrollTo({ top: 0, behavior: "instant" });
       return;
     }
-    const duration = Math.min(950, Math.max(500, from / 8));
+    const duration = Math.min(1400, Math.max(800, from / 5));
     const start = performance.now();
     const step = (now) => {
       const t = Math.min(1, (now - start) / duration);
-      const eased = t * t * t; // cubic ease-in: the pull builds up to the top
+      const eased = 1 - Math.cos((t * Math.PI) / 2); // sine ease-in: a gentle pull that still arrives with some speed
       window.scrollTo({ top: Math.round(from * (1 - eased)), behavior: "instant" });
       if (t < 1) anim = requestAnimationFrame(step);
       else {
