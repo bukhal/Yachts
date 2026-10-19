@@ -1126,21 +1126,21 @@ dialog.filters::backdrop { background: transparent; }
    Page background fades into the action-button blue (--brand), then deep
    navy at the bottom; water glints (WebGL, footer-glints-layer.js) move in
    the dark part. Content = yachtway.com footer + this model's anchors. */
-/* The fade is long (640px) and eased (smoothstep, mixed in OKLab). Its first
-   220px live under the FAQ: a zero-height in-flow pseudo at the end of <main>
+/* The fade is long (460px) and eased (smoothstep, mixed in OKLab). Its first
+   160px live under the FAQ: a zero-height in-flow pseudo at the end of <main>
    (z-index -1 paints it beneath the FAQ content; no pointer events). The
    footer continues the same curve from that colour. */
 main::after {
   content: ""; display: block; position: relative; z-index: -1; pointer-events: none;
-  height: 220px; margin-top: -220px;
-  background: linear-gradient(180deg, rgba(239, 242, 246, 0) 0px, #e8ecf3 64px, #d4dceb 128px, #b7c4de 192px, #a9b8d7 220px);
+  height: 160px; margin-top: -160px;
+  background: linear-gradient(180deg, rgba(239, 242, 246, 0) 0px, #e8ecf3 46px, #d4dceb 92px, #b7c4de 138px, #a8b7d7 160px);
 }
 .site-footer {
   position: relative; isolation: isolate; overflow: hidden;
-  padding-top: 300px; color: rgba(255, 255, 255, 0.78);
+  padding-top: 210px; color: rgba(255, 255, 255, 0.78);
   background: linear-gradient(180deg,
-    #a9b8d7 0px, #96a8cf 36px, #738abe 100px, #516cac 164px, #34509b 228px, #1d398d 292px, #0f2783 356px,
-    var(--brand) 420px, #0a1a6c 70%, #060f45 100%);
+    #a8b7d7 0px, #96a8cf 24px, #738abe 70px, #516cac 116px, #34509b 162px, #1d398d 208px, #0f2783 254px,
+    var(--brand) 300px, #0a1a6c 70%, #060f45 100%);
 }
 .site-footer__glints { position: absolute; z-index: 0; pointer-events: none; opacity: 0; mix-blend-mode: screen; transition: opacity 900ms ease; }
 .site-footer__glints.is-on { opacity: 1; }
@@ -1174,12 +1174,12 @@ main::after {
   .site-footer__col:first-child { grid-row: span 2; }
 }
 @media (max-width: 640px) {
-  main::after { height: 140px; margin-top: -140px; background: linear-gradient(180deg, rgba(239, 242, 246, 0) 0px, #e8ecf3 44px, #d4dceb 88px, #b7c4de 132px, #b1bfdb 140px); }
+  main::after { height: 110px; margin-top: -110px; background: linear-gradient(180deg, rgba(239, 242, 246, 0) 0px, #e8ecf3 34px, #d4dceb 68px, #b7c4de 102px, #b0bedb 110px); }
   .site-footer {
-    padding-top: 220px;
+    padding-top: 160px;
     background: linear-gradient(180deg,
-      #b1bfdb 0px, #96a8cf 36px, #738abe 80px, #516cac 124px, #34509b 168px, #1d398d 212px, #0f2783 256px,
-      var(--brand) 300px, #0a1a6c 70%, #060f45 100%);
+      #b0bedb 0px, #96a8cf 26px, #738abe 60px, #516cac 94px, #34509b 128px, #1d398d 162px, #0f2783 196px,
+      var(--brand) 230px, #0a1a6c 70%, #060f45 100%);
   }
   .site-footer__cols { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
   .site-footer__col:first-child { grid-column: 1 / -1; grid-row: auto; padding-right: 0; border-right: 0; }
@@ -1187,3 +1187,22 @@ main::after {
   .site-footer__social { margin-left: 0; }
   .site-footer__tagline { padding-left: 0; border-left: 0; flex-basis: 100%; }
 }
+
+/* ---------- back to top (back-to-top.js) ----------
+   Glass circle like the section bar pills, pinned bottom-right; appears from
+   "Current Yachts for Sale" down. */
+.to-top {
+  position: fixed; z-index: 26; right: 24px; bottom: 24px;
+  display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border-radius: 50%; cursor: pointer;
+  border: 1px solid #fff; background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-filter); backdrop-filter: var(--glass-filter);
+  box-shadow: var(--glass-shadow); color: var(--navy);
+  opacity: 0; visibility: hidden; translate: 0 10px;
+  transition: opacity 220ms ease, translate 320ms var(--ease-out), visibility 0s linear 320ms, box-shadow 220ms var(--ease-std);
+}
+.to-top.is-shown { opacity: 1; visibility: visible; translate: 0 0; transition: opacity 220ms ease, translate 320ms var(--ease-out), visibility 0s, box-shadow 220ms var(--ease-std); }
+@media (hover: hover) and (pointer: fine) { .to-top:hover { box-shadow: 0 2px 4px rgba(9, 15, 50, 0.06), 0 8px 20px rgba(9, 15, 50, 0.1); } }
+.to-top:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+body:has(.fx-toggle) .to-top { bottom: 76px; } /* dev mode: above the Tune button */
+@media (max-width: 640px) { .to-top { right: 16px; bottom: 16px; } }
+@media (prefers-reduced-motion: reduce) { .to-top, .to-top.is-shown { translate: none; } }

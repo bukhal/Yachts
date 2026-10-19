@@ -16,6 +16,7 @@ import { getModelContent, normalizeModelContent } from "./api/model-content.js";
 import { renderModelSections, faqItems } from "./components/model-sections.js";
 import { buildStructuredData, injectStructuredData } from "./lib/structured-data.js";
 import { createAlertsCta } from "./components/alerts-cta.js";
+import { createBackToTop } from "./components/back-to-top.js";
 import { createFxControls } from "./components/fx-controls.js";
 import { createCutawayView } from "./components/cutaway-view.js";
 import { createGalleryView } from "./components/gallery-view.js";
@@ -216,6 +217,7 @@ async function init() {
   }
 
   optional("alerts", () => createAlertsCta($("[data-alerts]"), { model, track, reducedMotion }));
+  optional("back to top", () => createBackToTop({ trigger: $("[data-listings]"), focusTarget: $("[data-title]"), reducedMotion }));
 
   const footerGlints = optional("footer glints", () =>
     createFooterGlints($("[data-footer-glints]"), {
