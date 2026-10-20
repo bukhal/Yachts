@@ -804,6 +804,12 @@ html.intro-play .hero__facts .spec-group:nth-child(2) { --intro-delay: 790ms; }
 html.intro-play .hero__facts .spec-group:nth-child(3) { --intro-delay: 860ms; }
 html.intro-play .hero__facts .spec-group:nth-child(4) { --intro-delay: 930ms; }
 html.intro-play .hero__facts .inventory { --intro-delay: 1000ms; transition-duration: 700ms, 900ms; }
+/* Section bar (anchors · m/ft · Save/Share) arrives last, after the facts and the price.
+   Opacity + the individual translate only: JS drives its transform (header hand-off). */
+html.intro .section-bar { opacity: 0; translate: 0 12px; }
+html.intro-play .section-bar { opacity: 1; translate: 0 0; }
+/* not while snapping: .section-bar.is-snapping owns the transition then (transform) */
+html.intro-play .section-bar:not(.is-snapping) { transition: opacity 700ms var(--intro-ease) 1080ms, translate 900ms var(--intro-ease) 1080ms; }
 html.intro-play.intro-yacht .scene {
   opacity: 1;
   translate: 0 0;
@@ -812,9 +818,10 @@ html.intro-play.intro-yacht .scene {
 
 @media (prefers-reduced-motion: reduce) {
   html.intro .site-header, html.intro .hero__builder-logo, html.intro .hero__title,
-  html.intro .hero__control, html.intro .hero__facts .spec-group, html.intro .hero__facts .inventory, html.intro .scene { translate: none; }
+  html.intro .hero__control, html.intro .hero__facts .spec-group, html.intro .hero__facts .inventory, html.intro .scene, html.intro .section-bar { translate: none; }
   html.intro-play .site-header, html.intro-play .hero__builder-logo, html.intro-play .hero__title,
-  html.intro-play .hero__control, html.intro-play .hero__facts .spec-group, html.intro-play .hero__facts .inventory, html.intro-play.intro-yacht .scene {
+  html.intro-play .hero__control, html.intro-play .hero__facts .spec-group, html.intro-play .hero__facts .inventory, html.intro-play.intro-yacht .scene,
+  html.intro-play .section-bar:not(.is-snapping) {
     transition: opacity 400ms ease;
   }
   .hero__facts.is-expanded .spec:not(.spec--primary) { animation: none; }

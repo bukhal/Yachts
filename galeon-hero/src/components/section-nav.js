@@ -91,6 +91,14 @@ export function createSectionNav({ nav, header, reducedMotion }) {
     // At the very bottom the last section wins even if it's short.
     if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) id = shown.at(-1)?.id ?? id;
     setCurrent(id);
+    // The URL fragment follows the reader, so a reload lands where they are:
+    // back in the hero it's dropped (a clean address reloads at the top); in
+    // the sections an existing #anchor follows the current one. Plain
+    // scrolling never adds a fragment that wasn't there.
+    const inHero = !shown.length || shown[0].getBoundingClientRect().top > line;
+    const hash = location.hash.slice(1);
+    if (inHero && hash) history.replaceState(history.state, "", location.pathname + location.search);
+    else if (!inHero && hash && hash !== id && shown.some((s) => s.id === hash)) history.replaceState(history.state, "", `#${id}`);
   }
 
   // ---- header hand-off, driven by scroll distance (so it follows scroll speed) ----

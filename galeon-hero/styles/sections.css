@@ -497,7 +497,7 @@
 }
 
 /* ---------- listings toolbar ---------- */
-.listings { padding-top: 56px; }
+.listings { padding-top: 32px; }
 /* until the grid renders, hold roughly its height so nothing below jumps up and back */
 .listings.is-loading { min-height: 1500px; }
 /* Catalog row: title on the left; quick locations | sort · filters on the right,
