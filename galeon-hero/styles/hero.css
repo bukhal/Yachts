@@ -439,12 +439,14 @@ html:not(.js) [data-js-only] { display: none; }
   --plan-shadow-opacity: 0.16;
   --plan-shadow-blur: 48px;
   --plan-shadow-y: 22px;
+  /* Plan sits a little below centre so more of the title shows above it. */
+  --plan-shift: clamp(8px, 1.4vw, 20px); /* main deck (balconies out) still clears the view switcher */
 }
 .cutaway { position: relative; height: 100%; }
 .cutaway__plan {
   position: absolute; left: 50%; top: 50%;
   width: var(--pw);
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, calc(-50% + var(--plan-shift)));
   /* Large, soft, slightly lowered shadow that follows the hull outline (two layers). */
   filter:
     drop-shadow(0 calc(var(--plan-shadow-y) * 0.3) calc(var(--plan-shadow-blur) * 0.25) rgba(9, 15, 50, calc(var(--plan-shadow-opacity) * 0.55)))
@@ -476,7 +478,7 @@ html:not(.js) [data-js-only] { display: none; }
 .cutaway-controls > * { pointer-events: auto; }
 .cutaway__decks, .cutaway__side {
   position: absolute; top: 50%; z-index: 2;
-  transform: translateY(-50%);
+  transform: translateY(calc(-50% + var(--plan-shift)));
 }
 .cutaway__decks { right: calc(50% + var(--pw) * (0.5 - var(--vis-left)) + var(--controls-gap)); }
 .cutaway__side { left: calc(50% + var(--pw) * (var(--vis-right) - 0.5) + var(--controls-gap)); }
