@@ -51,7 +51,7 @@ export const galeon500Fly = {
         label: "Flybridge",
         src: "./assets/decks/flybridge.webp",
         alt: "Galeon 500 Fly flybridge, plan view from above",
-        visibleBounds: { x: 0.0272, y: 0.0318, width: 0.959, height: 0.9393 },
+        visibleBounds: { x: 0.0272, y: 0.1633, width: 0.959, height: 0.6806 },
       },
       {
         id: "main",
@@ -70,8 +70,8 @@ export const galeon500Fly = {
     ],
     // Optional per-model multiplier when a model's plans are drawn at another scale.
     // These renders fill their canvas more (hull 96% of the width vs 85% before):
-    // 0.89 keeps the plan the size the layout was tuned for.
-    displayScale: 0.89,
+    // 0.89 would keep the original tuned size; 0.84 is ~6% smaller on purpose.
+    displayScale: 0.84,
     tour: {
       provider: "giraffe360",
       url: "https://tour.giraffe360.com/4ca50bad22854f789486010bae9d4d35/",
