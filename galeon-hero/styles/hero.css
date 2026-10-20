@@ -85,7 +85,7 @@ img { display: block; max-width: none; }
   will-change: transform;
 }
 /* Doubled class: must beat the intro's transition list (html.intro-play .site-header). */
-html .site-header.site-header.is-snapping { transition: transform 220ms var(--ease-out); }
+html .site-header.site-header.is-snapping { transition: transform 380ms var(--ease-out); } /* same as .section-bar.is-snapping */
 /* Unit system: values render in both systems in one grid cell; one is shown.
    The cell keeps the wider variant's size, so m ↔ ft never shifts layout. */
 .u-dual { display: inline-grid; }

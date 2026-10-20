@@ -121,7 +121,7 @@ export function createSectionNav({ nav, header, reducedMotion }) {
     snapTimer = setTimeout(() => {
       header.classList.remove("is-snapping");
       bar.classList.remove("is-snapping");
-    }, 240);
+    }, 400); // a soft settle (380ms, CSS), not a jump
   }
 
   function onScroll() {
@@ -144,7 +144,7 @@ export function createSectionNav({ nav, header, reducedMotion }) {
     clearTimeout(idleTimer);
     idleTimer = setTimeout(() => {
       if (hide > 0 && hide < hideMax()) snapTo(lastDir > 0 ? hideMax() : 0);
-    }, 140);
+    }, 200);
   }
 
   const request = () => {
