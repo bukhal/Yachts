@@ -1,6 +1,6 @@
 // Tiny anchored popover used by the sort menu and the location quick filters.
 // Closes on Escape, click outside, or when focus leaves; returns focus to the
-// trigger; positions below the trigger and flips right-aligned near the edge.
+// trigger; positions below the trigger, aligned to the side that keeps it on screen.
 
 /**
  * @param {HTMLElement} trigger
@@ -17,10 +17,17 @@ export function createPopover(trigger, panel, { onOpen, onClose, align = "start"
 
   const isOpen = () => !panel.hidden;
 
+  // Preferred alignment first; switch sides if that would cross a screen edge
+  // (e.g. the sort menu is end-aligned, but on phones its button sits on the left).
   function place() {
-    panel.classList.toggle("popover--end", align === "end");
-    const r = panel.getBoundingClientRect();
-    panel.classList.toggle("popover--flip", align === "start" && r.right > document.documentElement.clientWidth - 12);
+    const vw = document.documentElement.clientWidth;
+    panel.classList.remove("popover--end", "popover--flip");
+    if (align === "end") {
+      panel.classList.add("popover--end");
+      if (panel.getBoundingClientRect().left < 12) panel.classList.remove("popover--end");
+    } else if (panel.getBoundingClientRect().right > vw - 12) {
+      panel.classList.add("popover--flip");
+    }
   }
 
   function open() {

@@ -509,6 +509,7 @@
 :root { --ctl-h: 38px; }
 .listings__head {
   display: flex; align-items: center; justify-content: space-between; gap: 14px 24px; flex-wrap: wrap;
+  position: relative; z-index: 5; /* its menus (sort, +N locations) open over the cards below */
 }
 .listings__tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: flex-end; flex: 1 1 auto; }
 .listings__sep { width: 1px; height: 20px; margin: 0 4px; background: rgba(25, 25, 107, 0.14); }
@@ -1211,8 +1212,10 @@ body:has(.fx-toggle) .to-top { bottom: 76px; } /* dev mode: above the Tune butto
    Same language as the hero intro: opacity over 900ms, a short rise settling
    over 1200ms on --intro-ease; JS staggers blocks entering together. */
 .reveal { opacity: 0; translate: 0 22px; }
+/* Ends at `none`, not `0 0`: a non-none translate makes a stacking context,
+   which would trap menus inside a revealed block under the blocks after it. */
 .reveal.is-revealed {
-  opacity: 1; translate: 0 0;
+  opacity: 1; translate: none;
   transition: opacity 900ms var(--intro-ease) var(--reveal-delay, 0ms), translate 1200ms var(--intro-ease) var(--reveal-delay, 0ms);
 }
 @media (prefers-reduced-motion: reduce) { .reveal, .reveal.is-revealed { opacity: 1; translate: none; transition: none; } }
