@@ -450,12 +450,14 @@ html:not(.js) [data-js-only] { display: none; }
     drop-shadow(0 calc(var(--plan-shadow-y) * 0.3) calc(var(--plan-shadow-blur) * 0.25) rgba(9, 15, 50, calc(var(--plan-shadow-opacity) * 0.55)))
     drop-shadow(0 var(--plan-shadow-y) var(--plan-shadow-blur) rgba(9, 15, 50, var(--plan-shadow-opacity)));
 }
+/* Deck change: a slow crossfade with a slight settle of the incoming level
+   (scale only, so both plans stay aligned on the same canvas). */
 .cutaway__deck {
   position: absolute; inset: 0;
-  opacity: 0;
-  transition: opacity 280ms var(--ease-out);
+  opacity: 0; scale: 0.985;
+  transition: opacity 560ms cubic-bezier(0.4, 0, 0.2, 1), scale 900ms var(--intro-ease);
 }
-.cutaway__deck.is-active { opacity: 1; }
+.cutaway__deck.is-active { opacity: 1; scale: 1; transition-delay: 60ms; }
 .cutaway__img { display: block; width: 100%; height: 100%; user-select: none; }
 
 /* Deck switcher left of the plan, tour button mirrored on the right. */

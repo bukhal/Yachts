@@ -432,6 +432,7 @@ function renderModels(section, { content, modelName, brand }) {
 }
 
 // ---------- Dealers ----------
+const YACHTWAY_CONTACT = "https://yachtway.com/contact-us/"; // site-wide, from yachtway.com's footer
 // Card fades from white (logo area) to the card grey from its middle down, so
 // logos on white backgrounds need no frame of their own.
 function renderDealers(section, { content, brand }) {
@@ -462,6 +463,23 @@ function renderDealers(section, { content, brand }) {
     card.append(logo, el("p", "dcard__area", d.area), el("h3", "dcard__name", d.name), el("p", "dcard__loc", d.location), links);
     grid.append(card);
   }
+  // Closing card: invites dealers who aren't listed (fills the last grid slot).
+  const cta = el("article", "dcard dcard--cta");
+  const icon = el("span", "dcard__cta-icon");
+  icon.innerHTML = svg('<path d="M12 5v14M5 12h14"/>');
+  const go = el("a", "dcard__cta-btn", "Contact YachtWay");
+  go.href = YACHTWAY_CONTACT;
+  go.target = "_blank";
+  go.rel = "noopener";
+  go.insertAdjacentHTML("beforeend", ICONS.arrow);
+  cta.append(
+    icon,
+    el("h3", "dcard__name", "Don’t see your company here?"),
+    el("p", "dcard__cta-text", `Dealers and brokers can list their ${brand ? `${brand} ` : ""}yachts on YachtWay. Get in touch and we’ll set up your profile.`),
+    go,
+  );
+  grid.append(cta);
+
   const regions = new Set(content.dealers.map((d) => d.area)).size;
   section.replaceChildren(
     head(section, {

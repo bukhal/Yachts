@@ -37,11 +37,11 @@ export const galeon500Fly = {
     enableWaterFx: true,
     water: { widthScale: 1, offsetX: 0 },
   },
-  // Top-down deck plans from Figma 49:1917–49:1919. All three share one
-  // 1000×346 transparent canvas, so they stay aligned when crossfading.
+  // Top-down deck plans (updated renders, 2026-10-20). All three share one
+  // 1877×692 transparent canvas, so they stay aligned when crossfading.
   cutaway: {
-    intrinsicWidth: 1000,
-    intrinsicHeight: 346,
+    intrinsicWidth: 1877,
+    intrinsicHeight: 692,
     defaultDeck: "flybridge",
     // Order = switcher order, top deck first. visibleBounds (normalized, optional)
     // were measured from the alpha channel; without them the page measures once on load.
@@ -51,25 +51,27 @@ export const galeon500Fly = {
         label: "Flybridge",
         src: "./assets/decks/flybridge.webp",
         alt: "Galeon 500 Fly flybridge, plan view from above",
-        visibleBounds: { x: 0.101, y: 0.159, width: 0.85, height: 0.676 },
+        visibleBounds: { x: 0.0272, y: 0.0318, width: 0.959, height: 0.9393 },
       },
       {
         id: "main",
         label: "Main Deck",
         src: "./assets/decks/main-deck.webp",
         alt: "Galeon 500 Fly main deck layout: cockpit, salon, galley and helm",
-        visibleBounds: { x: 0.101, y: 0.035, width: 0.85, height: 0.933 },
+        visibleBounds: { x: 0.0272, y: 0.0318, width: 0.959, height: 0.9393 },
       },
       {
         id: "lower",
         label: "Lower Deck",
         src: "./assets/decks/lower-deck.webp",
         alt: "Galeon 500 Fly lower deck layout: master, VIP and twin cabins",
-        visibleBounds: { x: 0.161, y: 0.176, width: 0.767, height: 0.659 },
+        visibleBounds: { x: 0.0352, y: 0.1662, width: 0.9057, height: 0.6806 },
       },
     ],
     // Optional per-model multiplier when a model's plans are drawn at another scale.
-    displayScale: 1,
+    // These renders fill their canvas more (hull 96% of the width vs 85% before):
+    // 0.89 keeps the plan the size the layout was tuned for.
+    displayScale: 0.89,
     tour: {
       provider: "giraffe360",
       url: "https://tour.giraffe360.com/4ca50bad22854f789486010bae9d4d35/",

@@ -397,6 +397,27 @@
 .dcard__links { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: auto; padding-top: 14px; font-size: 13px; }
 .dcard__links a { display: inline-flex; align-items: center; gap: 4px; color: var(--brand); text-decoration: none; }
 .dcard__links svg { width: 14px; height: 14px; }
+/* "Don't see your company here?" — same card frame, but a soft brand tint and
+   a dashed edge so it reads as an invitation, not a dealer. */
+.dcard--cta {
+  background: linear-gradient(160deg, rgba(11, 32, 127, 0.07), rgba(11, 32, 127, 0.02) 60%, #fff);
+  box-shadow: inset 0 0 0 1px rgba(11, 32, 127, 0.14);
+}
+.dcard__cta-icon {
+  display: grid; place-items: center; width: 48px; height: 48px; margin-bottom: 18px;
+  border-radius: 50%; background: #fff; color: var(--brand);
+  box-shadow: 0 1px 2px rgba(5, 7, 84, 0.06), 0 4px 12px rgba(5, 7, 84, 0.06);
+}
+.dcard__cta-text { margin: 4px 0 0; font-size: 14px; line-height: 1.45; color: var(--muted-solid); }
+.dcard__cta-btn {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; margin-top: auto;
+  padding: 8px 14px; border-radius: 99px; background: var(--navy); color: #fff;
+  font: 500 13px var(--font-ui); text-decoration: none; transition: background-color 200ms ease;
+}
+.dcard--cta .dcard__cta-btn { margin-top: 16px; }
+.dcard__cta-btn svg { width: 16px; height: 16px; }
+@media (hover: hover) and (pointer: fine) { .dcard__cta-btn:hover { background: var(--brand); } }
+.dcard__cta-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 @media (hover: hover) and (pointer: fine) { .dcard__links a:hover { text-decoration: underline; } }
 
 /* FAQ + Waylo side by side. */
